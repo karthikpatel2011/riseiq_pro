@@ -132,64 +132,19 @@ export default function HomeView({ currentUser, userData }) {
           />
         ) : (
           <div className="db-recommendations-grid">
-            {/* 1. Project Card (Dynamic or Mock Fallback) */}
-            {recommendedItems.firstProject ? (
+            {/* 1. Project Card (Dynamic Only) */}
+            {recommendedItems.firstProject && (
               <ProjectCard item={recommendedItems.firstProject} currentUser={currentUser} />
-            ) : (
-              <div className="db-card db-mock-card">
-                <div className="db-card-head">
-                  <span className="db-card-badge db-card-badge--skill">PROJECT</span>
-                  <div className="db-card-tags">
-                    <span className="db-card-badge">Flutter</span>
-                    <span className="db-card-badge">Firebase</span>
-                  </div>
-                </div>
-                <h3 className="db-card-title">Need Flutter Developer for SIH 2026</h3>
-                <p className="db-card-body">Looking for a mobile developer to collaborate on Smart India Hackathon project...</p>
-                <div className="db-card-foot">
-                  <span className="db-card-stat" style={{ color: "#22C55E" }}>2 spots left</span>
-                </div>
-              </div>
             )}
 
-            {/* 2. Placement Card (Dynamic or Mock Fallback) */}
-            {recommendedItems.firstPlacement ? (
+            {/* 2. Placement Card (Dynamic Only) */}
+            {recommendedItems.firstPlacement && (
               <PlacementCard item={recommendedItems.firstPlacement} currentUser={currentUser} />
-            ) : (
-              <div className="db-card db-mock-card">
-                <div className="db-card-head">
-                  <span className="db-card-badge db-card-badge--company">PLACEMENT</span>
-                  <div className="db-card-tags">
-                    <span className="db-card-badge">Microsoft</span>
-                    <span className="db-card-badge">SDE Intern</span>
-                  </div>
-                </div>
-                <h3 className="db-card-title">Microsoft SDE Internship Experience 2024</h3>
-                <p className="db-card-body">Detailed summary of my online test, coding round and interview structure at Microsoft...</p>
-                <div className="db-card-foot">
-                  <span className="db-card-ctc">24 LPA</span>
-                </div>
-              </div>
             )}
 
-            {/* 3. Doubt Card (Dynamic or Mock Fallback) */}
-            {recommendedItems.firstDoubt ? (
+            {/* 3. Doubt Card (Dynamic Only) */}
+            {recommendedItems.firstDoubt && (
               <DoubtCard item={recommendedItems.firstDoubt} currentUser={currentUser} />
-            ) : (
-              <div className="db-card db-mock-card">
-                <div className="db-card-head">
-                  <span className="db-card-badge db-card-badge--subject">DOUBT</span>
-                  <div className="db-card-tags">
-                    <span className="db-card-badge">Database</span>
-                    <span className="db-card-badge">Normalization</span>
-                  </div>
-                </div>
-                <h3 className="db-card-title">How does normalization work in DBMS?</h3>
-                <p className="db-card-body">Can someone explain 1NF, 2NF and 3NF with a simple real-world database table example?</p>
-                <div className="db-card-foot">
-                  <span className="db-card-stat">12 answers · 1h ago</span>
-                </div>
-              </div>
             )}
           </div>
         )}
