@@ -8,19 +8,8 @@ import {
   updateProfile,
   sendPasswordResetEmail,
 } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
-import { auth, googleProvider, db } from "../lib/firebase";
+import { auth, googleProvider } from "../lib/firebase";
 import logo from "../assets/logo.png";
-
-/* check Firestore: does this user need onboarding? */
-async function needsOnboarding(uid) {
-  try {
-    const snap = await getDoc(doc(db, "users", uid));
-    return !snap.exists() || !snap.data().onboardingComplete;
-  } catch {
-    return true; // can't read doc → new user, send to onboarding
-  }
-}
 
 /* ─────────── small icons ─────────── */
 function EyeIcon({ open }) {
@@ -111,15 +100,10 @@ function AuthModalInner({ initialTab = "login", onClose }) {
     return () => { document.body.style.overflow = prev; };
   }, []);
 
-  /* shared: close modal and go to onboarding or stay */
-  const afterAuth = async (user) => {
-    if (await needsOnboarding(user.uid)) {
-      onClose();
-      navigate("/onboarding");
-    } else {
-      setSuccess("Welcome back!");
-      setTimeout(onClose, 900);
-    }
+  /* shared: close modal and send to onboarding */
+  const afterAuth = async () => {
+    onClose();
+    navigate("/onboarding");
   };
 
   /* ── LOGIN ── */
@@ -146,7 +130,6 @@ function AuthModalInner({ initialTab = "login", onClose }) {
     try {
       const cred = await createUserWithEmailAndPassword(auth, signupEmail, signupPw);
       await updateProfile(cred.user, { displayName: signupName });
-      // new account → always go to onboarding
       onClose();
       navigate("/onboarding");
     } catch (err) {

@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import logo from "../assets/logo.png";
 import AuthModal from "./AuthModal";
+import { useAuth } from "../contexts/AuthContext";
 
 const homeLinks = [
   { label: "About",        href: "/about" },
@@ -69,12 +70,28 @@ function Navbar() {
   const lastScrollY               = useRef(0);
   const navigate                  = useNavigate();
   const location                  = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { currentUser, onboardingComplete } = useAuth();
 
   const closeAll = () => setMenuOpen(false);
 
   const openLogin  = () => { setMenuOpen(false); setAuthTab("login");  };
   const openSignup = () => { setMenuOpen(false); setAuthTab("signup"); };
-  const closeAuth  = () => setAuthTab(null);
+  const closeAuth  = () => {
+    setAuthTab(null);
+    if (searchParams.get("auth")) {
+      const newParams = new URLSearchParams(searchParams);
+      newParams.delete("auth");
+      setSearchParams(newParams);
+    }
+  };
+
+  useEffect(() => {
+    const authParam = searchParams.get("auth");
+    if (authParam === "login" || authParam === "signup") {
+      setAuthTab(authParam);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     function onScroll() {
@@ -103,8 +120,42 @@ function Navbar() {
           </div>
 
           <div className={`nav2-actions ${menuOpen ? "nav2-actions--open" : ""}`}>
-            <button className="nav2-login"  onClick={openLogin}>Login</button>
-            <button className="nav2-signup" onClick={openSignup}>Sign Up</button>
+            {currentUser ? (
+              <button
+                className="nav2-dashboard-btn"
+                onClick={() => {
+                  closeAll();
+                  navigate(onboardingComplete ? "/dashboard" : "/onboarding");
+                }}
+                style={{
+                  background: "linear-gradient(135deg, #5B43E6, #818CF8)",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "10px",
+                  padding: "10px 20px",
+                  fontSize: "13.5px",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  transition: "transform 0.15s, box-shadow 0.15s",
+                  boxShadow: "0 4px 12px rgba(91, 67, 230, 0.2)",
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.transform = "translateY(-1px)";
+                  e.currentTarget.style.boxShadow = "0 6px 16px rgba(91, 67, 230, 0.3)";
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.transform = "none";
+                  e.currentTarget.style.boxShadow = "0 4px 12px rgba(91, 67, 230, 0.2)";
+                }}
+              >
+                Go to Dashboard
+              </button>
+            ) : (
+              <>
+                <button className="nav2-login"  onClick={openLogin}>Login</button>
+                <button className="nav2-signup" onClick={openSignup}>Sign Up</button>
+              </>
+            )}
           </div>
 
           <button
@@ -116,7 +167,6 @@ function Navbar() {
           </button>
         </div>
       </nav>
-
       {authTab && <AuthModal initialTab={authTab} onClose={closeAuth} />}
     </>
   );
