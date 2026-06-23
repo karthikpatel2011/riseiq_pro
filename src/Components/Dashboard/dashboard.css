@@ -1596,7 +1596,9 @@
   flex-direction: column;
   gap: 20px;
   max-width: 1320px;
+  width: 100%;
   margin: 0 auto;
+  align-self: center;
 }
 
 /* Clean & Borderless Hero Banner */
@@ -1604,7 +1606,7 @@
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
-  background: radial-gradient(circle at top right, rgba(91, 67, 230, 0.05), transparent 60%) !important;
+  background: radial-gradient(circle, rgba(91, 67, 230, 0.06) 0%, transparent 70%) !important;
   border-radius: 0 !important;
   padding: 12px 0 16px 0 !important;
   border: none !important;
