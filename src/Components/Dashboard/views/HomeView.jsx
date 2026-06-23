@@ -125,9 +125,11 @@ export default function HomeView({ currentUser, userData }) {
           <span className="db-view-all-link">View all</span>
         </div>
         
-        {items.length === 0 ? (
-          <div className="recommendations-grid">
-            {/* 1. Project Card Mock */}
+        <div className="recommendations-grid">
+          {/* 1. Project Card (Dynamic or Mock Fallback) */}
+          {recommendedItems.firstProject ? (
+            <ProjectCard item={recommendedItems.firstProject} currentUser={currentUser} />
+          ) : (
             <div className="rec-card">
               <div className="rec-card-top">
                 <span className="rec-badge rec-badge--project">PROJECT</span>
@@ -156,8 +158,12 @@ export default function HomeView({ currentUser, userData }) {
                 </div>
               </div>
             </div>
+          )}
 
-            {/* 2. Placement Card Mock */}
+          {/* 2. Placement Card (Dynamic or Mock Fallback) */}
+          {recommendedItems.firstPlacement ? (
+            <PlacementCard item={recommendedItems.firstPlacement} currentUser={currentUser} />
+          ) : (
             <div className="rec-card">
               <div className="rec-card-top">
                 <span className="rec-badge rec-badge--placement">PLACEMENT</span>
@@ -185,8 +191,12 @@ export default function HomeView({ currentUser, userData }) {
                 </div>
               </div>
             </div>
+          )}
 
-            {/* 3. Doubt Card Mock */}
+          {/* 3. Doubt Card (Dynamic or Mock Fallback) */}
+          {recommendedItems.firstDoubt ? (
+            <DoubtCard item={recommendedItems.firstDoubt} currentUser={currentUser} />
+          ) : (
             <div className="rec-card">
               <div className="rec-card-top">
                 <span className="rec-badge rec-badge--doubt">DOUBT</span>
@@ -208,25 +218,8 @@ export default function HomeView({ currentUser, userData }) {
                 </div>
               </div>
             </div>
-          </div>
-        ) : (
-          <div className="db-recommendations-grid">
-            {/* 1. Project Card (Dynamic Only) */}
-            {recommendedItems.firstProject && (
-              <ProjectCard item={recommendedItems.firstProject} currentUser={currentUser} />
-            )}
-
-            {/* 2. Placement Card (Dynamic Only) */}
-            {recommendedItems.firstPlacement && (
-              <PlacementCard item={recommendedItems.firstPlacement} currentUser={currentUser} />
-            )}
-
-            {/* 3. Doubt Card (Dynamic Only) */}
-            {recommendedItems.firstDoubt && (
-              <DoubtCard item={recommendedItems.firstDoubt} currentUser={currentUser} />
-            )}
-          </div>
-        )}
+          )}
+        </div>
       </section>
 
       {/* ── RECENT ACTIVITY ── */}
