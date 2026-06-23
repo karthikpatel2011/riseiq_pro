@@ -125,11 +125,9 @@ export default function HomeView({ currentUser, userData }) {
           <span className="db-view-all-link">View all</span>
         </div>
         
-        <div className="recommendations-grid">
-          {/* 1. Project Card (Dynamic or Mock Fallback) */}
-          {recommendedItems.firstProject ? (
-            <ProjectCard item={recommendedItems.firstProject} currentUser={currentUser} />
-          ) : (
+        {items.length === 0 ? (
+          <div className="recommendations-grid">
+            {/* 1. Project Card Mock */}
             <div className="rec-card">
               <div className="rec-card-top">
                 <span className="rec-badge rec-badge--project">PROJECT</span>
@@ -158,68 +156,23 @@ export default function HomeView({ currentUser, userData }) {
                 </div>
               </div>
             </div>
-          )}
-
-          {/* 2. Placement Card (Dynamic or Mock Fallback) */}
-          {recommendedItems.firstPlacement ? (
-            <PlacementCard item={recommendedItems.firstPlacement} currentUser={currentUser} />
-          ) : (
-            <div className="rec-card">
-              <div className="rec-card-top">
-                <span className="rec-badge rec-badge--placement">PLACEMENT</span>
-                <button className="rec-bookmark-btn" aria-label="Bookmark">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-                </button>
-              </div>
-              <h3 className="rec-title">Microsoft SDE Internship Experience 2024</h3>
-              <div className="rec-tags">
-                <span className="rec-tag">Microsoft</span>
-                <span className="rec-tag">SDE Intern</span>
-                <span className="rec-tag">2024 Batch</span>
-              </div>
-              <div className="rec-footer">
-                <div className="rec-footer-left">
-                  <div className="rec-author">
-                    <div className="rec-author-avatar">RP</div>
-                    <span className="rec-author-name">Rohan</span>
-                    <span className="rec-time">1d ago</span>
-                  </div>
-                </div>
-                <div className="rec-footer-right rec-footer-right--purple">
-                  <span>24 LPA</span>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* 3. Doubt Card (Dynamic or Mock Fallback) */}
-          {recommendedItems.firstDoubt ? (
-            <DoubtCard item={recommendedItems.firstDoubt} currentUser={currentUser} />
-          ) : (
-            <div className="rec-card">
-              <div className="rec-card-top">
-                <span className="rec-badge rec-badge--doubt">DOUBT</span>
-                <button className="rec-bookmark-btn" aria-label="Bookmark">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-                </button>
-              </div>
-              <h3 className="rec-title">How does normalization work in DBMS?</h3>
-              <div className="rec-tags">
-                <span className="rec-tag">Database</span>
-                <span className="rec-tag">Normalization</span>
-              </div>
-              <div className="rec-footer">
-                <div className="rec-footer-left">
-                  <span className="rec-stats">12 answers · 1h ago</span>
-                </div>
-                <div className="rec-footer-right rec-footer-right--slate">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
+          </div>
+        ) : (
+          <div className="recommendations-grid">
+            {items.map((item) => {
+              if (item.type === "project") {
+                return <ProjectCard key={item.id} item={item} currentUser={currentUser} />;
+              }
+              if (item.type === "placement") {
+                return <PlacementCard key={item.id} item={item} currentUser={currentUser} />;
+              }
+              if (item.type === "doubt") {
+                return <DoubtCard key={item.id} item={item} currentUser={currentUser} />;
+              }
+              return null;
+            })}
+          </div>
+        )}
       </section>
 
       {/* ── RECENT ACTIVITY ── */}
