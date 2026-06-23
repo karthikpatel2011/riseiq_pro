@@ -7,6 +7,7 @@ import EmptyState from "../ui/EmptyState";
 import CreateDoubtModal from "../modals/CreateDoubtModal";
 import CreateProjectModal from "../modals/CreateProjectModal";
 import CreatePlacementModal from "../modals/CreatePlacementModal";
+import "./homeView.css";
 
 // 3D Illustration Imports
 import heroIllustration from "../../../assets/dashboard-hero.png";
@@ -125,11 +126,89 @@ export default function HomeView({ currentUser, userData }) {
         </div>
         
         {items.length === 0 ? (
-          <EmptyState
-            title="No recommendations yet"
-            description="Start exploring by asking doubts, posting projects, or writing placement stories!"
-            action={{ label: "Ask a Doubt", onClick: () => setDoubtOpen(true) }}
-          />
+          <div className="recommendations-grid">
+            {/* 1. Project Card Mock */}
+            <div className="rec-card">
+              <div className="rec-card-top">
+                <span className="rec-badge rec-badge--project">PROJECT</span>
+                <button className="rec-bookmark-btn" aria-label="Bookmark">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                </button>
+              </div>
+              <h3 className="rec-title">Need Flutter Developer for SIH 2026</h3>
+              <div className="rec-tags">
+                <span className="rec-tag">Flutter</span>
+                <span className="rec-tag">Firebase</span>
+                <span className="rec-tag">UI/UX</span>
+              </div>
+              <div className="rec-footer">
+                <div className="rec-footer-left">
+                  <div className="rec-avatars">
+                    <div className="rec-avatar" style={{ backgroundColor: "#5B43E6" }}>KP</div>
+                    <div className="rec-avatar" style={{ backgroundColor: "#22C55E" }}>AJ</div>
+                    <div className="rec-avatar" style={{ backgroundColor: "#F97316" }}>SR</div>
+                    <div className="rec-avatar-more">+2</div>
+                  </div>
+                </div>
+                <div className="rec-footer-right rec-footer-right--green">
+                  <span>2 spots left</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                </div>
+              </div>
+            </div>
+
+            {/* 2. Placement Card Mock */}
+            <div className="rec-card">
+              <div className="rec-card-top">
+                <span className="rec-badge rec-badge--placement">PLACEMENT</span>
+                <button className="rec-bookmark-btn" aria-label="Bookmark">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                </button>
+              </div>
+              <h3 className="rec-title">Microsoft SDE Internship Experience 2024</h3>
+              <div className="rec-tags">
+                <span className="rec-tag">Microsoft</span>
+                <span className="rec-tag">SDE Intern</span>
+                <span className="rec-tag">2024 Batch</span>
+              </div>
+              <div className="rec-footer">
+                <div className="rec-footer-left">
+                  <div className="rec-author">
+                    <div className="rec-author-avatar">RP</div>
+                    <span className="rec-author-name">Rohan</span>
+                    <span className="rec-time">1d ago</span>
+                  </div>
+                </div>
+                <div className="rec-footer-right rec-footer-right--purple">
+                  <span>24 LPA</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                </div>
+              </div>
+            </div>
+
+            {/* 3. Doubt Card Mock */}
+            <div className="rec-card">
+              <div className="rec-card-top">
+                <span className="rec-badge rec-badge--doubt">DOUBT</span>
+                <button className="rec-bookmark-btn" aria-label="Bookmark">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                </button>
+              </div>
+              <h3 className="rec-title">How does normalization work in DBMS?</h3>
+              <div className="rec-tags">
+                <span className="rec-tag">Database</span>
+                <span className="rec-tag">Normalization</span>
+              </div>
+              <div className="rec-footer">
+                <div className="rec-footer-left">
+                  <span className="rec-stats">12 answers · 1h ago</span>
+                </div>
+                <div className="rec-footer-right rec-footer-right--slate">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
         ) : (
           <div className="db-recommendations-grid">
             {/* 1. Project Card (Dynamic Only) */}
