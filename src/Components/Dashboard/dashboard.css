@@ -1967,3 +1967,125 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ── Dashboard Modals Styling Fixes (Visible Inputs & Normal Buttons) ── */
+.am-modal .am-input {
+  color: #1E293B !important;                 /* Dark slate text */
+  background: #F8FAFC !important;            /* Very light slate background */
+  border: 1px solid #E2E8F0 !important;      /* Soft grey border */
+  border-radius: 10px !important;
+  font-family: "Inter", sans-serif !important;
+  font-size: 13.5px !important;
+  padding: 10px 14px !important;
+  outline: none !important;
+  width: 100% !important;
+  box-shadow: none !important;
+  transition: border-color 0.15s ease, background-color 0.15s ease !important;
+}
+
+.am-modal .am-input:focus {
+  border-color: #5B43E6 !important;          /* Accent purple border on focus */
+  background: #FFFFFF !important;            /* White background on focus */
+}
+
+/* Fix text colors for select element dropdown options */
+.am-modal select.am-input {
+  color: #1E293B !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2364748b' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e") !important;
+  background-position: right 10px center !important;
+  background-repeat: no-repeat !important;
+  background-size: 18px !important;
+  padding-right: 32px !important;
+  appearance: none !important;
+}
+
+/* Placeholders visibility */
+.am-modal .am-input::placeholder {
+  color: #94A3B8 !important;                 /* Muted grey placeholder */
+  opacity: 1 !important;
+}
+
+/* Label adjustments */
+.am-modal .am-label {
+  color: #475569 !important;                 /* Slate label color */
+  font-weight: 600 !important;
+  font-size: 12.5px !important;
+  margin-bottom: 6px !important;
+  display: block !important;
+}
+
+.am-modal .ob-field-hint {
+  color: #94A3B8 !important;
+  font-size: 11.5px !important;
+  font-weight: 400 !important;
+  margin-left: 4px !important;
+}
+
+.am-modal .ob-field-err {
+  color: #EF4444 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  margin-top: 8px !important;
+}
+
+/* Standardized, Normal Modal Buttons */
+.am-modal .ob-btn-primary {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: #5B43E6 !important;            /* Flat primary purple */
+  color: #FFFFFF !important;
+  border: none !important;
+  border-radius: 10px !important;
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  height: 38px !important;
+  padding: 0 18px !important;
+  cursor: pointer !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  transform: none !important;
+  transition: background-color 0.15s ease !important;
+}
+
+.am-modal .ob-btn-primary:hover:not(:disabled) {
+  background: #4935D5 !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.am-modal .ob-btn-primary:disabled {
+  opacity: 0.6 !important;
+  cursor: not-allowed !important;
+}
+
+.am-modal .ob-btn-ghost {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: #F1F5F9 !important;            /* Very light grey */
+  color: #475569 !important;                 /* Muted slate text */
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 10px !important;
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  height: 38px !important;
+  padding: 0 18px !important;
+  cursor: pointer !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  transform: none !important;
+  transition: background-color 0.15s ease, color 0.15s ease !important;
+}
+
+.am-modal .ob-btn-ghost:hover:not(:disabled) {
+  background: #E2E8F0 !important;
+  color: #1E293B !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.am-modal .ob-btn-ghost:disabled {
+  opacity: 0.6 !important;
+  cursor: not-allowed !important;
+}
