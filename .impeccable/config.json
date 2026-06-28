@@ -1,0 +1,9 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [
+      "src/Components/Dashboard/dashboardNew.css"
+    ],
+    "ignoreValues": []
+  }
+}

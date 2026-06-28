@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { useNavigate } from "react-router-dom";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -70,7 +69,6 @@ function AuthModalInner({ initialTab = "login", onClose }) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState("");
   const overlayRef            = useRef(null);
-  const navigate              = useNavigate();
 
   /* login fields */
   const [loginEmail, setLoginEmail] = useState("");
@@ -100,10 +98,9 @@ function AuthModalInner({ initialTab = "login", onClose }) {
     return () => { document.body.style.overflow = prev; };
   }, []);
 
-  /* shared: close modal and send to onboarding */
+  /* shared: close modal after auth */
   const afterAuth = async () => {
     onClose();
-    navigate("/onboarding");
   };
 
   /* ── LOGIN ── */
@@ -131,7 +128,6 @@ function AuthModalInner({ initialTab = "login", onClose }) {
       const cred = await createUserWithEmailAndPassword(auth, signupEmail, signupPw);
       await updateProfile(cred.user, { displayName: signupName });
       onClose();
-      navigate("/onboarding");
     } catch (err) {
       setSignupErr(friendlyError(err.code));
     } finally {
