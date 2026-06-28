@@ -114,6 +114,18 @@ function RouteGuard({ element, requireAuth = true, requireOnboarding = true }) {
 }
 
 function Landing() {
+  const { currentUser, authLoading, onboardingComplete } = useAuth();
+
+  if (authLoading) return <FullScreenLoader />;
+
+  if (currentUser) {
+    if (onboardingComplete) {
+      return <Navigate to="/dashboard" replace />;
+    } else {
+      return <Navigate to="/onboarding" replace />;
+    }
+  }
+
   return (
     <>
       <Navbar />

@@ -1,72 +1,54 @@
-import { useState } from "react";
-import Avatar from "../ui/Avatar";
-import BookmarkButton from "../ui/BookmarkButton";
-import { timeAgo } from "../../../hooks/useFeed";
-import { toggleBookmark, joinProject } from "../../../lib/content";
+import { timeAgo } from "../../../hooks/useDashboardData";
 
-export default function ProjectCard({ item, currentUser, expanded, onToggle }) {
-  const [bmActive, setBmActive] = useState(false);
-  const [joining, setJoining] = useState(false);
-  const uid = currentUser?.uid;
+const STATUS_LABEL = { draft: "Draft", active: "In Progress", done: "Completed" };
 
-  const handleBookmark = async () => {
-    if (!uid) return;
-    const added = await toggleBookmark(uid, {
-      contentType: "project",
-      contentId: item.id,
-      contentTitle: item.title,
-      extra: { skills: item.skillsNeeded },
-    });
-    setBmActive(added);
-  };
-
-  const handleJoin = async () => {
-    if (!uid || uid === item.authorId || joining) return;
-    setJoining(true);
-    try { await joinProject(item.id); } catch (e) { console.error(e); }
-    setJoining(false);
-  };
+/**
+ * ProjectCard — a card for one of the user's own projects.
+ * (Rebuilt for the project-OS model: status + tech tags + links,
+ * no more social "join / spots open" mechanics.)
+ */
+export default function ProjectCard({ item, onEdit, onDelete }) {
+  const status = item.status || "active";
 
   return (
-    <div className="db-card db-card--project">
-      <div className="db-card-head">
-        <Avatar src="" name={item.authorName} size={30} />
-        <div className="db-card-meta">
-          <span className="db-card-author">{item.authorName}</span>
-          <span className="db-card-time">{timeAgo(item.createdAt)}</span>
-        </div>
-        <BookmarkButton active={bmActive} onClick={handleBookmark} />
+    <div className="dn-card dn-card--hover">
+      <div className="dn-proj-head">
+        <h3 className="dn-proj-title">{item.title}</h3>
+        <span className={`dn-badge dn-badge--${status === "done" ? "done" : status === "draft" ? "draft" : "active"}`}>
+          {STATUS_LABEL[status] || "In Progress"}
+        </span>
       </div>
 
-      <h3 className="db-card-title">{item.title}</h3>
-      <p className="db-card-body">{item.description}</p>
+      {item.description && <p className="dn-proj-desc">{item.description}</p>}
 
-      {item.skillsNeeded?.length > 0 && (
-        <div className="db-card-tags">
-          {item.skillsNeeded.map((s) => (
-            <span key={s} className="db-card-badge db-card-badge--skill">{s}</span>
-          ))}
+      {item.tags?.length > 0 && (
+        <div className="dn-tags">
+          {item.tags.slice(0, 5).map((t) => <span key={t} className="dn-tag">{t}</span>)}
         </div>
       )}
 
-      <div className="db-card-foot">
-        <span className="db-card-stat">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/>
-          </svg>
-          {item.teamSize || 0} members · {item.spotsOpen || 0} spots open
+      <div className="dn-proj-foot">
+        <span className="dn-proj-meta">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          {timeAgo(item.createdAt) || "just now"}
         </span>
-        {uid && uid !== item.authorId && item.spotsOpen > 0 && (
-          <button className="db-card-join-btn" onClick={handleJoin} disabled={joining}>
-            {joining ? "Joining…" : "Join Project"}
-          </button>
-        )}
-        <button className="db-card-stat" onClick={onToggle}>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
-          </svg>
-          Comments
-        </button>
+        <div className="dn-proj-actions">
+          {item.repoUrl && (
+            <a className="dn-icon-btn" href={item.repoUrl} target="_blank" rel="noopener noreferrer" title="Open repository">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          )}
+          {onEdit && (
+            <button className="dn-icon-btn" onClick={() => onEdit(item)} title="Edit project">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>
+            </button>
+          )}
+          {onDelete && (
+            <button className="dn-icon-btn dn-icon-btn--danger" onClick={() => onDelete(item)} title="Delete project">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
